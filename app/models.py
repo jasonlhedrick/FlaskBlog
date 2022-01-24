@@ -26,12 +26,14 @@ class User(db.Model, UserMixin):
         s = Serializer(app.config.secret_key, expires_seconds)
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
+    @staticmethod
     def verify_reset_token(token):
         s = Serializer(app.config.secret_key)
         try:
             user_id = s.loads(token)['user_id']
         except:
             return None
+        return User.query.get(user_id)
 
     def __repr__(self):
         return f'<User {self.username}>'
