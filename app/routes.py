@@ -7,6 +7,10 @@ from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy import desc, exc
 from PIL import Image
 
+####################
+#### Home Route ####
+####################
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -16,6 +20,10 @@ def home():
         return render_template('home.html', title='Home', posts=posts)
     except:
         return abort(404)
+
+###############################
+#### Example Cookie Routes ####
+###############################
 
 @app.route('/cookie')
 def cookie():
@@ -37,6 +45,9 @@ def get_cookie():
     flash(f'My cookie contained {cookie_data}', category='success')
     return redirect(url_for('home'))
 
+####################
+#### About Route ####
+####################
 @app.route('/about')
 def about():
     '''Renders the about page.
@@ -46,6 +57,9 @@ def about():
     except:
         return abort(404)
 
+#####################
+#### Login Route ####
+#####################
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     '''Renders the login page if current_user is not authenticated.
@@ -79,6 +93,9 @@ def login():
     except:
         return abort(404)
 
+################################
+#### Register Account Route ####
+################################
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     '''Renders the register account page if current_user is not authenticated.
@@ -99,8 +116,11 @@ def register():
                 password_hash=hashed_pass)
             db.session.add(user)
             db.session.commit()
+            # The user has registered an account
+            # Log the user in automatically for a single session
+            login_user(user, remember=False)
             flash(f'Account created for {form.username.data}!', category='success')
-            return redirect(url_for('home'))
+            return redirect(url_for('account'))
         except exc.SQLAlchemyError as e:
             flash(f'Error with database. SQL error: {e}', category='danger')
             return redirect(url_for('home'))
@@ -109,6 +129,9 @@ def register():
     except:
         return abort(404)
 
+######################
+#### Logout Route ####
+######################
 @app.route('/logout')
 def logout():
     '''Logs the current_user out and redirects to the home route.
@@ -119,6 +142,9 @@ def logout():
     except:
         return abort(404)
 
+################################
+#### Admin List Users Route ####
+################################
 @app.route('/userlist')
 @login_required
 def userlist():
@@ -137,6 +163,9 @@ def userlist():
     except:
         return abort(404)
 
+#########################
+#### View Post Route ####
+#########################
 @app.route("/post/<int:post_id>")
 def post(post_id):
     '''Renders the post page for the post with the requested post_id.
@@ -148,7 +177,10 @@ def post(post_id):
     except exc.SQLAlchemyError as e:
         flash(f'Error with database. SQL error: {e}', category='danger')
         return redirect(url_for('home'))
-    
+
+###########################
+#### Create Post Route ####
+###########################
 @app.route('/post/create', methods=['GET', 'POST'])
 @login_required
 def create_post():
@@ -177,6 +209,9 @@ def create_post():
     except:
         return abort(404)
 
+###########################
+#### Update Post Route ####
+###########################
 @app.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
@@ -205,6 +240,9 @@ def update_post(post_id):
             flash(f'Error with database. SQL error: {e}', category='danger')
             return redirect(url_for('home'))
 
+###########################
+#### Delete Post Route ####
+###########################
 @app.route('/post/<int:post_id>/delete', methods=['POST'])
 @login_required
 def delete_post(post_id):
@@ -230,7 +268,14 @@ def delete_post(post_id):
             flash(f'Error with database. SQL error: {e}', category='danger')
             return redirect(url_for('home'))
 
+###############################
+#### Picture Upload Helper ####
+###############################
 def upload_picture(picture):
+    '''Upload a picture
+    Get a random sequence of characters first and then append the file extension to it.
+    This is to ensure we don't have filename conflicts when multiple users upload image files.
+    '''
     hex = secrets.token_hex(8)
     _, file_ext = os.path.split(picture.filename)
     picture_filename = hex + file_ext
@@ -243,6 +288,9 @@ def upload_picture(picture):
 
     return picture_filename
 
+############################
+#### User Account Route ####
+############################
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():

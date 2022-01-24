@@ -5,6 +5,9 @@ from wtforms import StringField, BooleanField, PasswordField, SubmitField, TextA
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
 from app.models import User
 
+#############################################
+#### WTForm for Creating/Updating a Post ####
+#############################################
 class PostForm(FlaskForm):
     post_title = StringField("Post Title",
                 validators=[DataRequired()])
@@ -12,6 +15,9 @@ class PostForm(FlaskForm):
                 validators=[DataRequired()])
     submit = SubmitField("Post")
 
+######################################
+#### WTForm for Logging a User in ####
+######################################
 class LoginForm(FlaskForm):
     email = StringField("Email", 
                 validators=[DataRequired(), Email()])
@@ -19,6 +25,9 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Remember me')
     submit = SubmitField("Login")
 
+##################################################
+#### WTForm for Registering a User Account in ####
+##################################################
 class RegistrationForm(FlaskForm):
     username = StringField("Username", 
                 validators=[DataRequired(), Length(min=3, max=20)])
@@ -41,6 +50,9 @@ class RegistrationForm(FlaskForm):
         if email:
             raise ValidationError('Email already in use.')
 
+############################################
+#### WTForm for Updating a User Account ####
+############################################
 class UpdateAccountForm(FlaskForm):
     username = StringField("Username", 
                             validators=[DataRequired(), Length(min=3, max=20)])
