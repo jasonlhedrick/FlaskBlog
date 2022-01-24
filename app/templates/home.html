@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for post in posts %}
+    <article class="content blogPost bg-light">
+        <p class="postDate">Posted on: {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+        <p class="postTitle">
+            <a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a>
+            by {{ post.author.username }}
+            <img class="postProfileImage" src="{{ url_for('static', filename='profile_images/' + post.author.profile_image) }}">
+        </p>
+        <p class="postBody">{{ post.content }}</p>
+    </article>
+    {% endfor %}
+{% endblock %}

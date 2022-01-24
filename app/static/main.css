@@ -1,0 +1,50 @@
+.mainNav {
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: silver;
+    padding: 25px;
+}
+
+.mainNav > div > a {
+    font-weight: 500;
+    margin: 5px;
+    text-decoration: none;
+}
+
+.mainNav > div > a:hover {
+    color: #000;
+}
+
+.blogPost {
+    border: 1px solid grey;
+}
+
+.postTitle {
+    border-bottom: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.profileImage {
+    width: 150px;
+    height: 150px;
+}
+
+.postProfileImage {
+    width: 75px;
+    height: 75px;
+}
+
+.error {
+    color: red;
+}
+
+.content {
+    padding: 10px 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

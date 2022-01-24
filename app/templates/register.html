@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container bg-light content">
+        <h1>{{title}}</h1>
+        <form action="" method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    <br>
+                    {{ form.email(type="email", size=32, required="required", class="form-control form-control-lg") }}
+                    {% for error in form.email.errors %}
+                    <span class="error">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+                    <br>
+                    {{ form.username(size=32, required="required", class="form-control form-control-lg") }}
+                    {% for error in form.username.errors %}
+                    <span class="error">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label") }}
+                    <br>
+                    {{ form.password(size=32, required="required", class="form-control form-control-lg") }}
+                    {% for error in form.password.errors %}
+                    <span class="error">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_password.label(class="form-control-label") }}
+                    <br>
+                    {{ form.confirm_password(size=32, required="required", class="form-control form-control-lg") }}
+                    {% for error in form.confirm_password.errors %}
+                    <span class="error">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group pt-3">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+                <div class="border-top pt-3">
+                    <small class="text-muted">
+                        Already registered? <a class="ml-2" href="{{ url_for('login') }}">Login</a>
+                    </small>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock content %}

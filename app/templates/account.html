@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="content bg-light">
+        <h1>Account</h1>
+        <div>
+            <img class="rounded-circle profileImage" src="{{ profile_image }}">
+        </div>
+        <h3>Update Account</h3>
+        <form action="" method="POST" enctype="multipart/form-data" novalidate>
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    <br>
+                    {{ form.email(type="email", size=32, required="required", class="form-control form-control-lg") }}
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+                    <br>
+                    {{ form.username(size=32, required="required", class="form-control form-control-lg") }}
+                    {% if form.username.errors %}
+                        {% for error in form.username.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.profile_picture.label() }}
+                    <br>
+                    {{ form.profile_picture(class="form-control-file") }}
+                    <br>
+                    {% if form.profile_picture.errors %}
+                        {% for error in form.profile_picture.errors %}
+                            <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-group pt-3">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock content %}
